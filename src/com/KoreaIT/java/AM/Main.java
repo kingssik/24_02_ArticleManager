@@ -54,11 +54,11 @@ public class Main {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        Article foundArticle = null;  // 찾은 게시글을 연결하는 변수 foundArticle (가정)
+        Article foundArticle = null;
 
-        for (int i = 0; i < articles.size(); i++) { // 게시글의 존재 여부 확인하는 과정
-          Article article = articles.get(i);  // 일일이 비교하기 위해 가져옴
-          if (article.id == id) { // articles에서 가져온 article 객체의 글번호와 id 비교
+        for (int i = 0; i < articles.size(); i++) {
+          Article article = articles.get(i);
+          if (article.id == id) {
             foundArticle = article;
             break;
           }
@@ -78,24 +78,21 @@ public class Main {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        Article foundArticle = null;
+        int foundIndex = -1; // 인덱스 -1 : 존재하지 않는 인덱스의 대명사
 
         for (int i = 0; i < articles.size(); i++) {
           Article article = articles.get(i);
           if (article.id == id) {
-            foundArticle = article;
+            foundIndex = i;
             break;
           }
         }
 
-        if (foundArticle == null) {
+        if (foundIndex == -1) {
           System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
           continue;
         } else {
-          // articles.size() -> 3
-          // index -> 0 1 2
-          // id    -> 1 2 3
-          articles.remove(id - 1);
+          articles.remove(foundIndex);
           System.out.printf("%d번 게시물이 삭제 되었습니다.\n", id);
         }
 
