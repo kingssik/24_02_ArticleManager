@@ -44,10 +44,10 @@ public class Main {
           System.out.println("게시글이 없습니다.");
           continue;
         } else {
-          System.out.println(" 번호 | 제목 ");
+          System.out.println(" 번호 |   제목   | 조회수 ");
           for (int i = articles.size() - 1; i >= 0; i--) {
             Article article = articles.get(i);
-            System.out.printf("  %d  |  %s  \n", article.id, article.title);
+            System.out.printf("  %2d  |  %6s  |  %2d  \n", article.id, article.title, article.viewCnt);
           }
         }
 
@@ -69,10 +69,12 @@ public class Main {
           System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
           continue;
         } else {
+          foundArticle.increaseViewCnt();
           System.out.printf("번호 : %d\n", foundArticle.id);
           System.out.printf("날짜 : %s\n", foundArticle.regDate);
           System.out.printf("제목 : %s\n", foundArticle.title);
           System.out.printf("내용 : %s\n", foundArticle.body);
+          System.out.printf("조회수 : %d\n", foundArticle.viewCnt);
         }
 
       } else if (cmd.startsWith("article delete ")) {
@@ -140,11 +142,17 @@ class Article {
   String regDate;
   String title;
   String body;
+  int viewCnt;
 
   public Article(int id, String regDate, String title, String body) {
     this.id = id;
     this.regDate = regDate;
     this.title = title;
     this.body = body;
+    this.viewCnt = 0;
+  }
+
+  public void increaseViewCnt() {
+    viewCnt++;
   }
 }
