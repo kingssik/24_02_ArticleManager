@@ -61,16 +61,7 @@ public class App {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        Article foundArticle = null;
-
-        for (int i = 0; i < articles.size(); i++) {
-          Article article = articles.get(i);
-          if (article.id == id) {
-            foundArticle = article;
-            break;
-          }
-        }
-
+        Article foundArticle = getArticleById(id);
         if (foundArticle == null) {
           System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
           continue;
@@ -87,16 +78,7 @@ public class App {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        int foundIndex = -1; // 인덱스 -1 : 존재하지 않는 인덱스의 대명사
-
-        for (int i = 0; i < articles.size(); i++) {
-          Article article = articles.get(i);
-          if (article.id == id) {
-            foundIndex = i;
-            break;
-          }
-        }
-
+        int foundIndex = getArticleIndexById(id);
         if (foundIndex == -1) {
           System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
           continue;
@@ -109,15 +91,7 @@ public class App {
         String[] cmdBits = cmd.split(" ");
         int id = Integer.parseInt(cmdBits[2]);
 
-        Article foundArticle = null;
-
-        for (int i = 0; i < articles.size(); i++) {
-          Article article = articles.get(i);
-          if (article.id == id) {
-            foundArticle = article;
-            break;
-          }
-        }
+        Article foundArticle = getArticleById(id);
 
         if (foundArticle == null) {
           System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -140,6 +114,40 @@ public class App {
 
     sc.close();
     System.out.println("== 프로그램 종료 ==");
+  }
+
+  private int getArticleIndexById(int id) {
+    int i = 0;  // articles의 인덱스를 나타내기 위한 수단
+
+    for (Article article : articles) {
+      if (article.id == id) {
+        return i;
+      }
+      i++;
+    }
+    return -1;  // 게시글의 인덱스를 찾지 못한 경우
+  }
+
+  private Article getArticleById(int id) {
+//    for (int i = 0; i < articles.size(); i++) {
+//      Article article = articles.get(i);
+//      if (article.id == id) {
+//        return article;
+//      }
+//    }
+
+    // for-each문 사용
+//    for (Article article : articles) {
+//      if (article.id == id) {
+//        return article;
+//      }
+//    }
+
+    int idx = getArticleIndexById(id);
+    if (idx == -1) {
+      return null;
+    }
+    return articles.get(idx);
   }
 
   private void makeTestData() {
