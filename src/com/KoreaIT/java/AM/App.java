@@ -38,8 +38,17 @@ public class App {
       if (cmd.equals("member join")) {
         int id = members.size() + 1;
         String regDate = Util.getNowDateStr();
-        System.out.print("로그인 아이디 : ");
-        String loginId = sc.nextLine();
+
+        String loginId = null;
+        while (true) {
+          System.out.print("로그인 아이디 : ");
+          loginId = sc.nextLine();
+          if (isJoinableLoginId(loginId) == false) {
+            System.out.printf("%s(은)는 이미 사용 중인 아이디 입니다.\n", loginId);
+            continue;
+          }
+          break;
+        }
 
         String loginPw = null;
         String loginPwCheck = null;
@@ -166,15 +175,34 @@ public class App {
     System.out.println("== 프로그램 종료 ==");
   }
 
+  private boolean isJoinableLoginId(String loginId) {
+    int idx = getMemberIndexByLoginId(loginId);
+    if (idx == -1) {
+      return true;
+    }
+    return false;
+  }
+
+  private int getMemberIndexByLoginId(String loginId) {
+    int i = 0;
+    for (Member member : members) {
+      if (member.loginId.equals(loginId)) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
+  }
+
   private int getArticleIndexById(int id) {
-    int i = 0;  // articles의 인덱스를 나타내기 위한 수단
+    int i = 0;
     for (Article article : articles) {
       if (article.id == id) {
         return i;
       }
       i++;
     }
-    return -1;  // 게시글의 인덱스를 찾지 못한 경우
+    return -1;
   }
 
   private Article getArticleById(int id) {
