@@ -26,10 +26,35 @@ public class MemberController extends Controller {
       case "join":
         doJoin();
         break;
+      case "login":
+        doLogin();
+        break;
       default:
         System.out.println("지원하지 않는 기능입니다.");
         break;
     }
+  }
+
+  private void doLogin() {
+    System.out.print("로그인 아이디 : ");
+    String loginId = sc.nextLine();
+    System.out.print("로그인 비밀번호 : ");
+    String loginPw = sc.nextLine();
+
+    // 로그인 정보가 실존하는지 여부
+    Member member = getMemberByLoginId(loginId);
+    if (member == null) {
+      System.out.println("존재하지 않는 회원입니다.");
+      return;
+    }
+
+    if (member.loginPw.equals(loginPw) == false) {
+      System.out.println("비밀번호를 확인하세요.");
+      return;
+    }
+
+    // 로그인 성공
+    System.out.println("로그인이 완료 되었습니다.");
   }
 
   private void doJoin() {
@@ -76,6 +101,14 @@ public class MemberController extends Controller {
       return true;
     }
     return false;
+  }
+
+  private Member getMemberByLoginId(String loginId) {
+    int idx = getMemberIndexByLoginId(loginId);
+    if (idx == -1) {
+      return null;
+    }
+    return members.get(idx);
   }
 
   private int getMemberIndexByLoginId(String loginId) {
