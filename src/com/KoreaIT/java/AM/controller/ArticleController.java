@@ -13,9 +13,9 @@ public class ArticleController extends Controller {
   private String cmd;
   private String actionMethodName;
 
-  public ArticleController(Scanner sc, List<Article> articles) {
+  public ArticleController(Scanner sc) {
     this.sc = sc;
-    this.articles = articles;
+    this.articles = new ArrayList<Article>();
   }
 
   @Override
@@ -39,10 +39,13 @@ public class ArticleController extends Controller {
       case "delete":
         doDelete();
         break;
+      default:
+        System.out.println("지원하지 않는 기능입니다.");
+        break;
     }
   }
 
-  public void showList() {
+  private void showList() {
     if (articles.size() == 0) {
       System.out.println("게시글이 없습니다.");
       return;
@@ -74,7 +77,7 @@ public class ArticleController extends Controller {
     }
   }
 
-  public void showDetail() {
+  private void showDetail() {
     String[] cmdBits = cmd.split(" ");
     int id = Integer.parseInt(cmdBits[2]);
 
@@ -92,7 +95,7 @@ public class ArticleController extends Controller {
     }
   }
 
-  public void doWrite() {
+  private void doWrite() {
     int id = articles.size() + 1;
     String regDate = Util.getNowDateStr();
     System.out.print("제목 : ");
@@ -106,7 +109,7 @@ public class ArticleController extends Controller {
     System.out.printf("%d번 글이 생성되었습니다.\n", id);
   }
 
-  public void doDelete() {
+  private void doDelete() {
     String[] cmdBits = cmd.split(" ");
     int id = Integer.parseInt(cmdBits[2]);
 
@@ -120,7 +123,7 @@ public class ArticleController extends Controller {
     }
   }
 
-  public void doModify() {
+  private void doModify() {
     String[] cmdBits = cmd.split(" ");
     int id = Integer.parseInt(cmdBits[2]);
 
@@ -158,5 +161,12 @@ public class ArticleController extends Controller {
       return null;
     }
     return articles.get(idx);
+  }
+
+  public void makeTestData() {
+    System.out.println("게시글 테스트 데이터를 생성합니다.");
+    articles.add(new Article(1, Util.getNowDateStr(), "title1", "body1", 11));
+    articles.add(new Article(2, Util.getNowDateStr(), "title2", "body2", 22));
+    articles.add(new Article(3, Util.getNowDateStr(), "title3", "body3", 33));
   }
 }
